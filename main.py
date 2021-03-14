@@ -29,7 +29,7 @@ def convert_list_to_dict():
     for item in ingredients_list:
         count = 0
         ingredients_dict = {}
-        for element in item.split('| '):
+        for element in item.split(' | '):
             ingredients_dict[ingredient_params[count]] = element
             count += 1
         ingredients_list_with_params.append(ingredients_dict)
@@ -39,7 +39,22 @@ def convert_list_to_dict():
         ingredients_count = int(dishes_ingredients_count[dish_number])
         cook_book[dishes_list[dish_number]] = ingredients_list_with_params[count:count + ingredients_count]
         count += ingredients_count
-    print(cook_book)
+    return cook_book
 
 
-convert_list_to_dict()
+def get_shop_list_by_dishes(dishes, person_count):
+    buy_dict = {}
+    loc_dict_cook_book = convert_list_to_dict()
+    for dish in dishes:
+        if dish == '' or dish == ' ':
+            continue
+        list_ingr_to_dishes = loc_dict_cook_book.get(str(dish))
+        for ing in list_ingr_to_dishes:
+            if ing['ingredient_name'] not in buy_dict.keys():
+                buy_dict[ing['ingredient_name']] = {'measure': ing['measure'], 'quantity': 0}
+            buy_dict[ing['ingredient_name']]['quantity'] = buy_dict[ing['ingredient_name']]['quantity'] + (
+                int(ing['quantity'])) * person_count
+    return buy_dict
+
+print(convert_list_to_dict())
+print(get_shop_list_by_dishes(['Запеченный картофель', 'Омлет'], 2))
