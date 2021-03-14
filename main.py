@@ -46,9 +46,8 @@ def get_shop_list_by_dishes(dishes, person_count):
     buy_dict = {}
     loc_dict_cook_book = convert_list_to_dict()
     for dish in dishes:
-        if dish == '' or dish == ' ':
-            continue
-        list_ingr_to_dishes = loc_dict_cook_book.get(str(dish))
+        if dish in loc_dict_cook_book:
+            list_ingr_to_dishes = loc_dict_cook_book.get(str(dish))
         for ing in list_ingr_to_dishes:
             if ing['ingredient_name'] not in buy_dict.keys():
                 buy_dict[ing['ingredient_name']] = {'measure': ing['measure'], 'quantity': 0}
